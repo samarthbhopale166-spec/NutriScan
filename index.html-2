@@ -1,0 +1,1608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<meta name="theme-color" content="#087f3e">
+
+<title>NutriScan – Nutrition Analysis</title>
+
+<style>
+
+:root{
+  --green:#087f3e;
+  --green2:#19a65a;
+  --light:#f4faf6;
+  --white:#ffffff;
+  --text:#17352a;
+  --muted:#6b7d73;
+  --border:#e1eee7;
+  --danger:#d9534f;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:linear-gradient(
+    180deg,
+    #e9f8ef,
+    #f8fbf9
+  );
+  color:var(--text);
+}
+
+.app{
+  max-width:520px;
+  margin:auto;
+  padding:14px;
+}
+
+/* ================= HEADER ================= */
+
+.hero{
+  background:
+    linear-gradient(
+      135deg,
+      var(--green),
+      var(--green2)
+    );
+
+  color:white;
+  border-radius:28px;
+  padding:22px;
+
+  box-shadow:
+    0 12px 30px rgba(8,127,62,.25);
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:13px;
+}
+
+.logo{
+  width:60px;
+  height:60px;
+  border-radius:18px;
+  background:white;
+  padding:3px;
+}
+
+.brand h1{
+  margin:0;
+  font-size:28px;
+}
+
+.brand p{
+  margin:4px 0 0;
+  opacity:.9;
+  font-size:14px;
+}
+
+/* ================= CALORIE GOAL ================= */
+
+.goal{
+  margin-top:20px;
+}
+
+.goalLine{
+  display:flex;
+  justify-content:space-between;
+  font-size:13px;
+  margin-bottom:7px;
+}
+
+.progress{
+  height:9px;
+  background:rgba(255,255,255,.3);
+  border-radius:20px;
+  overflow:hidden;
+}
+
+.progressFill{
+  height:100%;
+  width:0%;
+  background:white;
+  border-radius:20px;
+  transition:.4s;
+}
+
+/* ================= CARD ================= */
+
+.card{
+  background:white;
+  border:1px solid var(--border);
+
+  border-radius:22px;
+
+  padding:18px;
+
+  margin-top:14px;
+
+  box-shadow:
+    0 8px 25px rgba(20,80,45,.07);
+}
+
+.title{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.title h2{
+  margin:0;
+  font-size:19px;
+}
+
+.badge{
+  background:#e8f7ed;
+  color:var(--green);
+
+  padding:7px 11px;
+
+  border-radius:30px;
+
+  font-size:12px;
+  font-weight:bold;
+}
+
+/* ================= INPUT ================= */
+
+label{
+  display:block;
+
+  margin-top:14px;
+  margin-bottom:6px;
+
+  font-size:13px;
+  font-weight:bold;
+
+  color:#52675d;
+}
+
+input,
+select{
+
+  width:100%;
+
+  padding:13px;
+
+  border-radius:13px;
+
+  border:1px solid #d6e5dc;
+
+  background:#fbfdfc;
+
+  font-size:16px;
+
+  outline:none;
+}
+
+input:focus,
+select:focus{
+
+  border-color:var(--green2);
+
+  box-shadow:
+    0 0 0 3px rgba(25,166,90,.12);
+}
+
+/* ================= SEARCH ================= */
+
+.search{
+  margin-bottom:9px;
+}
+
+/* ================= CATEGORY ================= */
+
+.categories{
+
+  display:flex;
+
+  gap:7px;
+
+  overflow-x:auto;
+
+  padding-bottom:4px;
+}
+
+.category{
+
+  white-space:nowrap;
+
+  border:1px solid #d6e5dc;
+
+  background:#f8fcf9;
+
+  color:#476056;
+
+  padding:8px 12px;
+
+  border-radius:30px;
+
+  font-size:12px;
+
+  cursor:pointer;
+}
+
+.category.active{
+
+  background:#e2f6e9;
+
+  color:var(--green);
+
+  border-color:#a7d8b8;
+}
+
+/* ================= ADD BUTTON ================= */
+
+.addBtn{
+
+  width:100%;
+
+  border:none;
+
+  margin-top:15px;
+
+  padding:14px;
+
+  border-radius:14px;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--green),
+      var(--green2)
+    );
+
+  color:white;
+
+  font-size:16px;
+
+  font-weight:bold;
+
+  cursor:pointer;
+
+  box-shadow:
+    0 8px 18px rgba(8,127,62,.2);
+}
+
+.addBtn:active{
+  transform:scale(.98);
+}
+
+/* ================= STATS ================= */
+
+.stats{
+
+  display:grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap:10px;
+
+  margin-top:13px;
+}
+
+.stat{
+
+  background:#f5faf7;
+
+  border:1px solid #e5efe9;
+
+  padding:15px;
+
+  border-radius:17px;
+}
+
+.stat small{
+  color:var(--muted);
+}
+
+.stat strong{
+
+  display:block;
+
+  margin-top:5px;
+
+  font-size:22px;
+}
+
+/* ================= MACROS ================= */
+
+.macros{
+
+  display:flex;
+
+  justify-content:space-between;
+
+  margin-top:13px;
+
+  color:var(--muted);
+
+  font-size:12px;
+}
+
+.macros b{
+  color:var(--text);
+}
+
+/* ================= FOOD LIST ================= */
+
+.foodItem{
+
+  display:flex;
+
+  justify-content:space-between;
+
+  align-items:center;
+
+  padding:13px 0;
+
+  border-bottom:1px solid var(--border);
+}
+
+.foodItem:last-child{
+  border-bottom:none;
+}
+
+.foodName{
+  font-weight:bold;
+}
+
+.foodInfo{
+
+  color:var(--muted);
+
+  font-size:12px;
+
+  margin-top:4px;
+}
+
+.foodCalories{
+
+  color:var(--green);
+
+  font-weight:bold;
+
+  text-align:right;
+}
+
+.deleteBtn{
+
+  margin-top:5px;
+
+  border:none;
+
+  background:#fff0f0;
+
+  color:var(--danger);
+
+  border-radius:8px;
+
+  padding:5px 9px;
+
+  cursor:pointer;
+}
+
+.empty{
+
+  text-align:center;
+
+  padding:20px;
+
+  color:var(--muted);
+
+  line-height:1.5;
+}
+
+.tip{
+
+  margin-top:11px;
+
+  color:var(--muted);
+
+  font-size:12px;
+
+  line-height:1.5;
+}
+
+.footer{
+
+  text-align:center;
+
+  color:#82938b;
+
+  font-size:11px;
+
+  padding:20px;
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div class="app">
+
+
+<!-- ================= HERO ================= -->
+
+<section class="hero">
+
+<div class="brand">
+
+<!-- तुझा icon इथे ठेव -->
+<img
+class="logo"
+src="https://i.imgur.com/placeholder.png"
+alt="NutriScan"
+>
+
+<div>
+
+<h1>NutriScan</h1>
+
+<p>Smart Nutrition Analysis</p>
+
+</div>
+
+</div>
+
+
+<div class="goal">
+
+<div class="goalLine">
+
+<span>Daily calorie goal</span>
+
+<b>
+<span id="heroCalories">0</span>
+/
+2000 kcal
+</b>
+
+</div>
+
+<div class="progress">
+
+<div
+id="progressFill"
+class="progressFill">
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- ================= ADD FOOD ================= -->
+
+<section class="card">
+
+<div class="title">
+
+<h2>🍽️ Add Food</h2>
+
+<span
+id="itemCount"
+class="badge">
+0 items
+</span>
+
+</div>
+
+
+<input
+id="searchFood"
+class="search"
+placeholder="🔎 Search food..."
+oninput="filterFoods()"
+>
+
+
+<div
+id="categories"
+class="categories">
+</div>
+
+
+<label>
+Select Food
+</label>
+
+<select id="foodSelect">
+</select>
+
+
+<label>
+Quantity (grams)
+</label>
+
+<input
+id="quantity"
+type="number"
+min="1"
+value="100"
+>
+
+
+<button
+class="addBtn"
+onclick="addFood()">
+
+＋ Add to Today's Log
+
+</button>
+
+
+<div class="tip">
+
+Nutrition values are approximate per 100g.
+For packaged foods, check the product label
+for accurate nutrition information.
+
+</div>
+
+</section>
+
+
+
+<!-- ================= NUTRITION ================= -->
+
+<section class="card">
+
+<div class="title">
+
+<h2>📊 Today's Nutrition</h2>
+
+<span
+id="status"
+class="badge">
+
+Ready
+
+</span>
+
+</div>
+
+
+<div class="stats">
+
+<div class="stat">
+
+<small>Calories</small>
+
+<strong id="calories">
+0 kcal
+</strong>
+
+</div>
+
+
+<div class="stat">
+
+<small>Protein</small>
+
+<strong id="protein">
+0 g
+</strong>
+
+</div>
+
+
+<div class="stat">
+
+<small>Carbs</small>
+
+<strong id="carbs">
+0 g
+</strong>
+
+</div>
+
+
+<div class="stat">
+
+<small>Fat</small>
+
+<strong id="fat">
+0 g
+</strong>
+
+</div>
+
+</div>
+
+
+<div class="macros">
+
+<span>
+Protein
+<b id="proteinPercent">0%</b>
+</span>
+
+<span>
+Carbs
+<b id="carbPercent">0%</b>
+</span>
+
+<span>
+Fat
+<b id="fatPercent">0%</b>
+</span>
+
+</div>
+
+</section>
+
+
+
+<!-- ================= FOOD LOG ================= -->
+
+<section class="card">
+
+<div class="title">
+
+<h2>🥗 Today's Food</h2>
+
+<span
+id="totalCalories"
+class="badge">
+
+0 kcal
+
+</span>
+
+</div>
+
+
+<div
+id="foodList"
+class="empty">
+
+No food added yet.
+<br>
+
+Add your first meal above.
+
+</div>
+
+</section>
+
+
+<div class="footer">
+
+NutriScan • Nutrition Analysis App
+
+</div>
+
+
+</div>
+
+
+
+<script>
+
+/* =========================================
+   FOOD DATABASE
+========================================= */
+
+const foods = {
+
+"Rice":{
+calories:130,
+protein:2.7,
+carbs:28,
+fat:.3,
+category:"Staples"
+},
+
+"Brown Rice":{
+calories:123,
+protein:2.7,
+carbs:25.6,
+fat:1,
+category:"Staples"
+},
+
+"Roti":{
+calories:120,
+protein:3.5,
+carbs:20,
+fat:3,
+category:"Indian"
+},
+
+"Chapati":{
+calories:120,
+protein:3.5,
+carbs:20,
+fat:3,
+category:"Indian"
+},
+
+"Paratha":{
+calories:260,
+protein:6,
+carbs:34,
+fat:11,
+category:"Indian"
+},
+
+"Poha":{
+calories:180,
+protein:4,
+carbs:30,
+fat:5,
+category:"Indian"
+},
+
+"Upma":{
+calories:190,
+protein:5,
+carbs:30,
+fat:6,
+category:"Indian"
+},
+
+"Idli":{
+calories:58,
+protein:2,
+carbs:12,
+fat:.4,
+category:"Indian"
+},
+
+"Dosa":{
+calories:168,
+protein:3.9,
+carbs:29,
+fat:3.7,
+category:"Indian"
+},
+
+"Vada Pav":{
+calories:290,
+protein:7,
+carbs:38,
+fat:12,
+category:"Indian"
+},
+
+"Misal Pav":{
+calories:250,
+protein:10,
+carbs:32,
+fat:9,
+category:"Indian"
+},
+
+"Sabudana Khichdi":{
+calories:190,
+protein:3,
+carbs:34,
+fat:5,
+category:"Indian"
+},
+
+"Dal":{
+calories:116,
+protein:9,
+carbs:20,
+fat:.4,
+category:"Indian"
+},
+
+"Rajma":{
+calories:127,
+protein:8.7,
+carbs:22.8,
+fat:.5,
+category:"Indian"
+},
+
+"Chole":{
+calories:164,
+protein:8.9,
+carbs:27.4,
+fat:2.6,
+category:"Indian"
+},
+
+"Paneer":{
+calories:265,
+protein:18,
+carbs:6,
+fat:20,
+category:"Protein"
+},
+
+"Tofu":{
+calories:76,
+protein:8,
+carbs:1.9,
+fat:4.8,
+category:"Protein"
+},
+
+"Chicken Breast":{
+calories:165,
+protein:31,
+carbs:0,
+fat:3.6,
+category:"Protein"
+},
+
+"Chicken Curry":{
+calories:190,
+protein:18,
+carbs:5,
+fat:11,
+category:"Indian"
+},
+
+"Fish Curry":{
+calories:150,
+protein:18,
+carbs:4,
+fat:7,
+category:"Indian"
+},
+
+"Egg":{
+calories:155,
+protein:13,
+carbs:1.1,
+fat:11,
+category:"Protein"
+},
+
+"Milk":{
+calories:61,
+protein:3.2,
+carbs:4.8,
+fat:3.3,
+category:"Dairy"
+},
+
+"Curd":{
+calories:61,
+protein:3.5,
+carbs:4.7,
+fat:3.3,
+category:"Dairy"
+},
+
+"Buttermilk":{
+calories:40,
+protein:3.3,
+carbs:4.8,
+fat:1,
+category:"Dairy"
+},
+
+"Greek Yogurt":{
+calories:59,
+protein:10,
+carbs:3.6,
+fat:.4,
+category:"Dairy"
+},
+
+"Cheese":{
+calories:402,
+protein:25,
+carbs:1.3,
+fat:33,
+category:"Dairy"
+},
+
+"Apple":{
+calories:52,
+protein:.3,
+carbs:14,
+fat:.2,
+category:"Fruits"
+},
+
+"Banana":{
+calories:89,
+protein:1.1,
+carbs:23,
+fat:.3,
+category:"Fruits"
+},
+
+"Orange":{
+calories:47,
+protein:.9,
+carbs:12,
+fat:.1,
+category:"Fruits"
+},
+
+"Mango":{
+calories:60,
+protein:.8,
+carbs:15,
+fat:.4,
+category:"Fruits"
+},
+
+"Papaya":{
+calories:43,
+protein:.5,
+carbs:11,
+fat:.3,
+category:"Fruits"
+},
+
+"Guava":{
+calories:68,
+protein:2.6,
+carbs:14,
+fat:1,
+category:"Fruits"
+},
+
+"Watermelon":{
+calories:30,
+protein:.6,
+carbs:7.6,
+fat:.2,
+category:"Fruits"
+},
+
+"Avocado":{
+calories:160,
+protein:2,
+carbs:8.5,
+fat:14.7,
+category:"Fruits"
+},
+
+"Almonds":{
+calories:579,
+protein:21.2,
+carbs:21.6,
+fat:49.9,
+category:"Nuts"
+},
+
+"Peanuts":{
+calories:567,
+protein:25.8,
+carbs:16.1,
+fat:49.2,
+category:"Nuts"
+},
+
+"Cashews":{
+calories:553,
+protein:18.2,
+carbs:30.2,
+fat:43.9,
+category:"Nuts"
+},
+
+"Walnuts":{
+calories:654,
+protein:15.2,
+carbs:13.7,
+fat:65.2,
+category:"Nuts"
+},
+
+"Oats":{
+calories:389,
+protein:16.9,
+carbs:66.3,
+fat:6.9,
+category:"Breakfast"
+},
+
+"Sweet Potato":{
+calories:86,
+protein:1.6,
+carbs:20.1,
+fat:.1,
+category:"Vegetables"
+},
+
+"Potato":{
+calories:77,
+protein:2,
+carbs:17.5,
+fat:.1,
+category:"Vegetables"
+},
+
+"Carrot":{
+calories:41,
+protein:.9,
+carbs:9.6,
+fat:.2,
+category:"Vegetables"
+},
+
+"Tomato":{
+calories:18,
+protein:.9,
+carbs:3.9,
+fat:.2,
+category:"Vegetables"
+},
+
+"Broccoli":{
+calories:34,
+protein:2.8,
+carbs:6.6,
+fat:.4,
+category:"Vegetables"
+},
+
+"Spinach":{
+calories:23,
+protein:2.9,
+carbs:3.6,
+fat:.4,
+category:"Vegetables"
+},
+
+"Mixed Salad":{
+calories:35,
+protein:1.5,
+carbs:7,
+fat:.3,
+category:"Vegetables"
+},
+
+"Dark Chocolate":{
+calories:598,
+protein:7.8,
+carbs:45.9,
+fat:42.6,
+category:"Snacks"
+},
+
+"Biscuits":{
+calories:480,
+protein:6,
+carbs:68,
+fat:20,
+category:"Snacks"
+},
+
+"Peanut Butter":{
+calories:588,
+protein:25,
+carbs:20,
+fat:50,
+category:"Spreads"
+}
+
+};
+
+
+
+/* =========================================
+   VARIABLES
+========================================= */
+
+let currentCategory = "All";
+
+let foodLog = [];
+
+let total = {
+
+calories:0,
+
+protein:0,
+
+carbs:0,
+
+fat:0
+
+};
+
+
+
+const foodSelect =
+document.getElementById("foodSelect");
+
+const searchFood =
+document.getElementById("searchFood");
+
+const quantity =
+document.getElementById("quantity");
+
+
+
+/* =========================================
+   CATEGORIES
+========================================= */
+
+const categories = [
+
+"All",
+
+"Indian",
+
+"Staples",
+
+"Protein",
+
+"Dairy",
+
+"Fruits",
+
+"Nuts",
+
+"Breakfast",
+
+"Vegetables",
+
+"Snacks",
+
+"Spreads"
+
+];
+
+
+
+function createCategories(){
+
+const container =
+document.getElementById("categories");
+
+container.innerHTML = "";
+
+categories.forEach(category=>{
+
+const button =
+document.createElement("button");
+
+button.className =
+"category";
+
+if(category === currentCategory){
+
+button.classList.add("active");
+
+}
+
+button.innerText = category;
+
+button.onclick = ()=>{
+
+currentCategory =
+category;
+
+createCategories();
+
+filterFoods();
+
+};
+
+container.appendChild(button);
+
+});
+
+}
+
+
+
+/* =========================================
+   FILTER FOOD
+========================================= */
+
+function filterFoods(){
+
+const search =
+searchFood.value
+.toLowerCase();
+
+foodSelect.innerHTML = "";
+
+Object.keys(foods)
+
+.filter(name=>{
+
+const matchesSearch =
+name.toLowerCase()
+.includes(search);
+
+const matchesCategory =
+currentCategory === "All" ||
+foods[name].category === currentCategory;
+
+return matchesSearch &&
+matchesCategory;
+
+})
+
+.forEach(name=>{
+
+const option =
+document.createElement("option");
+
+option.value = name;
+
+option.innerText = name;
+
+foodSelect.appendChild(option);
+
+});
+
+}
+
+
+
+/* =========================================
+   ADD FOOD
+========================================= */
+
+function addFood(){
+
+const name =
+foodSelect.value;
+
+if(!foods[name]) return;
+
+
+const qty =
+Math.max(
+1,
+Number(quantity.value) || 100
+);
+
+
+const food =
+foods[name];
+
+const multiplier =
+qty / 100;
+
+
+const item = {
+
+id:Date.now(),
+
+name:name,
+
+quantity:qty,
+
+calories:
+food.calories * multiplier,
+
+protein:
+food.protein * multiplier,
+
+carbs:
+food.carbs * multiplier,
+
+fat:
+food.fat * multiplier
+
+};
+
+
+foodLog.push(item);
+
+
+total.calories +=
+item.calories;
+
+total.protein +=
+item.protein;
+
+total.carbs +=
+item.carbs;
+
+total.fat +=
+item.fat;
+
+
+render();
+
+
+document.getElementById("status")
+.innerText =
+"Added ✓";
+
+
+setTimeout(()=>{
+
+document.getElementById("status")
+.innerText =
+"Tracking";
+
+},1000);
+
+}
+
+
+
+/* =========================================
+   DELETE FOOD
+========================================= */
+
+function deleteFood(id){
+
+const index =
+foodLog.findIndex(
+item=>item.id === id
+);
+
+if(index === -1) return;
+
+
+const item =
+foodLog[index];
+
+
+total.calories -=
+item.calories;
+
+total.protein -=
+item.protein;
+
+total.carbs -=
+item.carbs;
+
+total.fat -=
+item.fat;
+
+
+foodLog.splice(
+index,
+1
+);
+
+
+render();
+
+}
+
+
+
+/* =========================================
+   RENDER
+========================================= */
+
+function render(){
+
+document.getElementById("calories")
+.innerText =
+total.calories.toFixed(0)
++
+" kcal";
+
+
+document.getElementById("protein")
+.innerText =
+total.protein.toFixed(1)
++
+" g";
+
+
+document.getElementById("carbs")
+.innerText =
+total.carbs.toFixed(1)
++
+" g";
+
+
+document.getElementById("fat")
+.innerText =
+total.fat.toFixed(1)
++
+" g";
+
+
+document.getElementById("heroCalories")
+.innerText =
+total.calories.toFixed(0);
+
+
+document.getElementById("totalCalories")
+.innerText =
+total.calories.toFixed(0)
++
+" kcal";
+
+
+document.getElementById("itemCount")
+.innerText =
+foodLog.length
++
+" item"
++
+(foodLog.length === 1 ? "" : "s");
+
+
+/* CALORIE PROGRESS */
+
+const progress =
+Math.min(
+100,
+(total.calories / 2000) * 100
+);
+
+
+document.getElementById(
+"progressFill"
+)
+.style.width =
+progress + "%";
+
+
+/* MACRO PERCENTAGE */
+
+const calories =
+total.calories || 1;
+
+
+const proteinPercent =
+(
+total.protein * 4 /
+calories *
+100
+).toFixed(0);
+
+
+const carbPercent =
+(
+total.carbs * 4 /
+calories *
+100
+).toFixed(0);
+
+
+const fatPercent =
+(
+total.fat * 9 /
+calories *
+100
+).toFixed(0);
+
+
+document.getElementById(
+"proteinPercent"
+)
+.innerText =
+proteinPercent + "%";
+
+
+document.getElementById(
+"carbPercent"
+)
+.innerText =
+carbPercent + "%";
+
+
+document.getElementById(
+"fatPercent"
+)
+.innerText =
+fatPercent + "%";
+
+
+/* FOOD LIST */
+
+const list =
+document.getElementById(
+"foodList"
+);
+
+
+if(foodLog.length === 0){
+
+list.className =
+"empty";
+
+list.innerHTML =
+"No food added yet.<br>" +
+"Add your first meal above.";
+
+return;
+
+}
+
+
+list.className = "";
+
+
+list.innerHTML =
+foodLog
+.slice()
+.reverse()
+.map(item=>`
+
+<div class="foodItem">
+
+<div>
+
+<div class="foodName">
+
+${item.name}
+
+</div>
+
+<div class="foodInfo">
+
+${item.quantity} g
+
+•
+
+P ${item.protein.toFixed(1)}g
+
+•
+
+C ${item.carbs.toFixed(1)}g
+
+•
+
+F ${item.fat.toFixed(1)}g
+
+</div>
+
+</div>
+
+
+<div>
+
+<div class="foodCalories">
+
+${item.calories.toFixed(0)}
+kcal
+
+</div>
+
+<button
+class="deleteBtn"
+onclick="deleteFood(${item.id})">
+
+✕
+
+</button>
+
+</div>
+
+</div>
+
+`).join("");
+
+}
+
+
+
+/* =========================================
+   START APP
+========================================= */
+
+createCategories();
+
+filterFoods();
+
+render();
+
+
+</script>
+
+</body>
+</html>
